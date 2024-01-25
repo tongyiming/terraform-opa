@@ -39,9 +39,9 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}
         run: terraform show -json tfplan > tfplan.json
 
-      - name: ls
-        run: ls -al ./
+      - name: update-submodule
+        run: git submodule update --remote
   
       - name: conftest test
         id: conftest
-        run: ./conftest test -o table --all-namespaces -p ${{ env.WORKING_DIR }}/opa-policies/policies/ ${{ env.WORKING_DIR }}/tfplan.json
+        run: ./conftest test -o table --all-namespaces -p ${{ env.WORKING_DIR }}/opa-policies ${{ env.WORKING_DIR }}/tfplan.json
