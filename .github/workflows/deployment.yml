@@ -5,7 +5,7 @@ on:
     types: [ labeled ]
 
 env:
-  WORKING_DIR: ./
+  WORKING_DIR: .
   CONFTEST_VERSION: 0.48.0
   TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
   TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
@@ -44,4 +44,4 @@ jobs:
   
       - name: conftest test
         id: conftest
-        run: ./conftest test -o table --all-namespaces -p ./opa-policies ${{ env.WORKING_DIR }}/tfplan.json
+        run: ./conftest test -o table --all-namespaces -p ${{ env.WORKING_DIR }}/opa-policies ${{ env.WORKING_DIR }}/tfplan.json
