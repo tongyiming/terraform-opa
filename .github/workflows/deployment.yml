@@ -1,0 +1,44 @@
+name: tf-deployment
+
+on:
+  pull_request_target:
+    types: [ labeled ]
+
+env:
+  WORKING_DIR: ./
+  CONFTEST_VERSION: 0.48.0
+  TENCENTCLOUD_SECRET_KEY: ${{ secrets.TENCENTCLOUD_SECRET_KEY }}
+  TENCENTCLOUD_SECRET_ID: ${{ secrets.TENCENTCLOUD_SECRET_ID }}
+
+jobs:
+  terraform:
+    name: pre-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Install conftest
+        run: |
+          wget -O - 'https://github.com/open-policy-agent/conftest/releases/download/v${{ env.CONFTEST_VERSION }}/conftest_${{ env.CONFTEST_VERSION }}_Linux_x86_64.tar.gz' | tar zxvf -
+          ./conftest --version
+
+      - name: Terraform Init ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
+        run: terraform init
+
+      - name: Terraform Plan ${{ env.WORKING_DIR }}
+        working-directory: ${{ env.WORKING_DIR }}
+        run: terraform plan -out=tfplan -no-color -lock=false
+
+      - name: Convert terraform plan result to json formmat
+        id: convert
+        working-directory: ${{ env.WORKING_DIR }}
+        run: terraform show -json tfplan > tfplan.json
+
+      - name: conftest test
+        id: conftest
+        run: ./conftest test -o table --all-namespaces -p ./opa-policies ${{ env.WORKING_DIR }}/tfplan.json
