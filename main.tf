@@ -24,7 +24,7 @@ resource "tencentcloud_security_group" "sglab_1" {
 resource "tencentcloud_security_group_rule" "sglab_1" {
   security_group_id = tencentcloud_security_group.sglab_1.id
   type              = "ingress"
-  cidr_ip           = "10.0.0.0/16"
+  cidr_ip           = "10.1.0.0/16"
   ip_protocol       = "TCP"
   port_range        = "80"
   policy            = "ACCEPT"
