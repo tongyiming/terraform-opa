@@ -40,7 +40,7 @@ jobs:
         run: terraform show -json tfplan > tfplan.json
 
       - name: update-submodule
-        run: git submodule update --remote
+        run: ls -al ./opa-policies
   
       - name: conftest test
         id: conftest
