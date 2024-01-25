@@ -39,6 +39,9 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}
         run: terraform show -json tfplan > tfplan.json
 
+      - name: ls
+        run: ls -al ./
+  
       - name: conftest test
         id: conftest
         run: ./conftest test -o table --all-namespaces -p ./opa-policies ${{ env.WORKING_DIR }}/tfplan.json
