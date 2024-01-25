@@ -44,4 +44,4 @@ jobs:
   
       - name: conftest test
         id: conftest
-        run: ./conftest test -o table --all-namespaces -p ${{ env.WORKING_DIR }}/opa-policies ${{ env.WORKING_DIR }}/tfplan.json
+        run: conftest test -o table --all-namespaces -p ${{ env.WORKING_DIR }}/opa-policies/policies/ ${{ env.WORKING_DIR }}/tfplan.json
