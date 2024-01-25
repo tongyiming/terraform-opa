@@ -1,0 +1,4 @@
+.terraform/
+plan.tfplan
+plan.json
+.terraform.lock.hcl

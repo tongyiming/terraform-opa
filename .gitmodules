@@ -1,0 +1,3 @@
+[submodule "opa-policies"]
+	path = opa-policies
+	url = https://github.com/tencentcloudstack/opa-policies.git
